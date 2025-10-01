@@ -8,8 +8,8 @@ public class CustomSerializableObject implements Serializable {
 	private final String name;
 	private final Date date;
 
-	public CustomSerializableObject(String name) {
-		this.name = name;
+	public CustomSerializableObject() {
+		this.name = CustomSerializableObject.class.getName();
 		this.date = new Date();
 	}
 
