@@ -27,13 +27,22 @@ public class CustomSerializableObjectServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		HttpSession session = req.getSession(true);
 		CustomSerializableObject object;
-		if( session.getAttribute(CustomSerializableObjectServlet.class.getName()) == null){
+		if(session.getAttribute(CustomSerializableObject.class.getName()) == null){
 			log.info("Creating new CustomSerializableObject");
 			object = new CustomSerializableObject();
-			session.setAttribute(CustomSerializableObjectServlet.class.getName(), object);
+			session.setAttribute(CustomSerializableObject.class.getName(), object);
 		} else {
 			log.info("CustomSerializableObject already exists");
-			object = (CustomSerializableObject) session.getAttribute(CustomSerializableObjectServlet.class.getName());
+			object = (CustomSerializableObject) session.getAttribute(CustomSerializableObject.class.getName());
+		}
+		CustomSerializableImmutableObject immutableObject;
+		if(session.getAttribute(CustomSerializableImmutableObject.class.getName()) == null){
+			log.info("Creating new CustomSerializableImmutableObject");
+			immutableObject = new CustomSerializableImmutableObject();
+			session.setAttribute(CustomSerializableImmutableObject.class.getName(), immutableObject);
+		} else {
+			log.info("CustomSerializableImmutableObject already exists");
+			immutableObject = (CustomSerializableImmutableObject) session.getAttribute(CustomSerializableImmutableObject.class.getName());
 		}
 		resp.setContentType("text/html");
 
@@ -41,6 +50,7 @@ public class CustomSerializableObjectServlet extends HttpServlet {
 		writer.print("Session: " + session.getId());
 		Date currentDate = new Date();
 		writer.print("<p>CustomSerializableObject: " + dateFormat.format(object.getDate()) + " (" + dateFormat.format(currentDate) + ")</p>");
+		writer.print("<p>CustomSerializableImmutableObject: " + dateFormat.format(immutableObject.getDate()) + " (" + dateFormat.format(currentDate) + ")</p>");
 		writer.print("<p>CustomSerializableStatefulEjb: " + dateFormat.format(bean.getDate()) + " (" + dateFormat.format(currentDate) + ")</p>");
 		writer.close();
 	}
